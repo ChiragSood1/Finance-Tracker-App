@@ -68,6 +68,13 @@ public class Transaction {
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
+    @Override
+    public String toString() {
+        return String.format(
+                "Record[date=%s, type=%s, category=%s, description=%s, amount=%.2f]",
+                date, type, category, notes, amount);
+    }
+
 
 }
 
