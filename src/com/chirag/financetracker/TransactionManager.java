@@ -121,6 +121,31 @@ public class TransactionManager {
         }
         return balance;
     }
+    public void printSummary(int days) {
+        LocalDate cutoff = LocalDate.now().minusDays(days);
+        BigDecimal income = BigDecimal.ZERO;
+        BigDecimal expense = BigDecimal.ZERO;
+        int count = 0;
+
+        for (Transaction t : recentTransactions) {
+            if (!t.getDate().isBefore(cutoff)) {
+                if (t.getType().equalsIgnoreCase("INCOME")) {
+                    income = income.add(t.getAmount());
+                } else {
+                    expense = expense.add(t.getAmount());
+                }
+                count++;
+            }
+        }
+
+        BigDecimal avgSpend = count > 0 ? expense.divide(BigDecimal.valueOf(count), 2, RoundingMode.HALF_UP) : BigDecimal.ZERO;
+
+        System.out.println("Summary (Last " + days + " days):");
+        System.out.println("Income: " + income);
+        System.out.println("Expense: " + expense);
+        System.out.println("Avg Daily Expense: " + avgSpend);
+    }
+
 
 }
 
