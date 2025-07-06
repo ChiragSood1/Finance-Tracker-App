@@ -53,7 +53,6 @@ public class Transaction {
     public void setType(String type) {
         this.type = type;
     }
-
     // Sets/updates the category of the record.
     public void setCategory(String category) {
         this.category = category;
@@ -77,6 +76,5 @@ public class Transaction {
 
 
 }
-
 
 
