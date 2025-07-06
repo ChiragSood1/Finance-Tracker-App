@@ -39,10 +39,6 @@ public class TransactionManager {
         System.out.println("Balance: " + calculateBalance());
     }
 
-    private String calculateBalance() {
-        return "";
-    }
-
     public List<Transaction> searchByDate(String date) {
         LocalDate target = LocalDate.parse(date, formatter);
         return transactions.stream()
@@ -71,6 +67,59 @@ public class TransactionManager {
     public boolean deleteTransaction(String date) {
         LocalDate target = LocalDate.parse(date, formatter);
         return transactions.removeIf(t -> t.getDate().equals(target));
+
+    }
+    public List<Transaction> filterByType(String type) {
+        List<Transaction> list = new ArrayList<>();
+        for (Transaction t : transactions) if (t.getType().equalsIgnoreCase(type)) list.add(t);
+        return list;
+    }
+
+    public List<Transaction> filterByCategory(String category) {
+        List<Transaction> list = new ArrayList<>();
+        for (Transaction t : transactions) if (t.getCategory().equalsIgnoreCase(category)) list.add(t);
+        return list;
+    }
+
+    public List<Transaction> filterByDateRange(String startDate, String endDate) {
+        LocalDate start = LocalDate.parse(startDate, formatter);
+        LocalDate end   = LocalDate.parse(endDate,   formatter);
+        List<Transaction> list = new ArrayList<>();
+        for (Transaction t : transactions) {
+            LocalDate d = t.getDate();
+            if (!d.isBefore(start) && !d.isAfter(end)) list.add(t);
+        }
+        return list;
+    }
+
+    public List<Transaction> sortByDateDesc() {
+        List<Transaction> list = new ArrayList<>(transactions);
+        list.sort((a, b) -> b.getDate().compareTo(a.getDate()));
+        return list;
+    }
+
+    public List<Transaction> sortByAmountDesc() {
+        List<Transaction> list = new ArrayList<>(transactions);
+        list.sort((a, b) -> b.getAmount().compareTo(a.getAmount()));
+        return list;
+    }
+
+    public List<Transaction> searchByNotes(String keyword) {
+        List<Transaction> list = new ArrayList<>();
+        for (Transaction t : transactions) if (t.getNotes().contains(keyword)) list.add(t);
+        return list;
+    }
+
+    /* ─── Analytics ──────────────────────────────────────────────────────── */
+
+    public BigDecimal calculateBalance() {
+        BigDecimal balance = BigDecimal.ZERO;
+        for (Transaction t : transactions) {
+            balance = "INCOME".equalsIgnoreCase(t.getType())
+                    ? balance.add(t.getAmount())
+                    : balance.subtract(t.getAmount());
+        }
+        return balance;
     }
 
 }
