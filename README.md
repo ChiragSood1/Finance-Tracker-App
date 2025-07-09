@@ -4,7 +4,7 @@ A simple console-based Java app to manage your income and expenses efficiently. 
 
 ---
 
-## 🚀 Features
+## Features
 
 - Add / Edit / Delete records
 - View all transactions
@@ -15,7 +15,7 @@ A simple console-based Java app to manage your income and expenses efficiently. 
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - Java 8+
 - OOP, Collections (List, Queue)
